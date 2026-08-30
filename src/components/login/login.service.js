@@ -1,22 +1,30 @@
-// Simple login service that verifies credentials
-export const Login = (username, password) => {
-  return new Promise((resolve, reject) => {
-    // Simulate a brief network request
-    setTimeout(() => {
-      const trimmedUser = username.trim();
-      const trimmedPass = password.trim();
+// Login service that communicates with Flask backend API
+export const Login = async (username, password) => {
+  try {
+    const response = await fetch('http://localhost:5000/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username.trim(),
+        password: password.trim(),
+      }),
+    });
 
-      if (trimmedUser === 'aildc' && trimmedPass === 'Devdlc@123') {
-        resolve({
-          username: 'aildc',
-          name: 'AILDC User',
-          role: 'Member',
-          loginTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        });
-      } else {
-        reject(new Error('Invalid username or password. Please try again.'));
-      }
-    }, 400);
-  });
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Invalid username or password');
+    }
+
+    return data;
+  } catch (error) {
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      throw new Error('Unable to connect to backend server. Make sure Flask is running on port 5000.');
+    }
+    throw error;
+  }
 };
+
 

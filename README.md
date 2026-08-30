@@ -1,18 +1,22 @@
 # Login Project
 
-A simple React login page project.
+A simple React login application with a Python Flask backend.
 
-## How to Run
+## 1. Run Backend (Flask)
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
+```bash
+cd backend
+pip install -r requirements.txt
+python app.py
+```
+Backend runs at `http://localhost:5000`.
 
-2. Start the project:
-   ```bash
-   npm start
-   ```
+## 2. Run Frontend (React)
 
-Runs the app at [http://localhost:3000](http://localhost:3000).
+```bash
+npm install
+npm start
+```
+Frontend runs at `http://localhost:3000`.
+
 
